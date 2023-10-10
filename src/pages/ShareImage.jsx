@@ -26,7 +26,6 @@ const ShareImage = ({ imageList, onUpload }) => {
       return;
     }
     uploadImage();
-    onUpload();
   };
 
   const uploadImage = async () => {
@@ -39,6 +38,7 @@ const ShareImage = ({ imageList, onUpload }) => {
       }, 3000);
     });
     setImage(null);
+    onUpload();
   };
 
   return (
@@ -94,7 +94,7 @@ const ShareImage = ({ imageList, onUpload }) => {
         )}
       </motion.form>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-6 xl:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-6 gap-2">
         {imageList.map((image) => {
           return (
             <div key={image.url}>

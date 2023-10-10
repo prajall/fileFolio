@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { uploadBytes, ref, getDownloadURL, listAll } from "firebase/storage";
+import {
+  uploadBytes,
+  ref,
+  getDownloadURL,
+  listAll,
+  deleteObject,
+} from "firebase/storage";
 import { storage } from "../config/config";
 import { useParams } from "react-router-dom";
-import { AiFillFile, AiOutlineCloseCircle } from "react-icons/ai";
+import { AiFillFile, AiOutlineCloseCircle, AiFillDelete } from "react-icons/ai";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import Alert from "../components/Alert";
 import { motion } from "framer-motion";
@@ -38,6 +44,20 @@ const ShareFile = ({ fileList, onUpload }) => {
     onUpload();
   };
 
+  const deleteFile = async (name) => {
+    const deleteRef = ref(storage, `${params}/files/${name}`);
+    // const deleteRef = ref(storage, `prajal/files/${name}`);
+    console.log(name);
+    await deleteObject(deleteRef)
+      .then(() => {
+        console.log("file deleted");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    onUpload();
+  };
+
   return (
     <div>
       {/* =========== UPLOAD BUTTON ============== */}
@@ -68,8 +88,10 @@ const ShareFile = ({ fileList, onUpload }) => {
         {file && (
           <>
             <div className="flex items-center w-fit m-auto ">
-              <div className="flex item-center lg:w-80 justify-between border  px-2 py-1 mr-2 ">
-                <p className="mr-3">{file.name}</p>
+              <div className="flex item-center justify-between border rounded-lg rounded-r-none px-2 py-1 ">
+                <p className="mr-3 w-[180px] whitespace-nowrap overflow-hidden">
+                  {file.name}
+                </p>
                 <button
                   onClick={() => {
                     setFile(null);
@@ -80,7 +102,7 @@ const ShareFile = ({ fileList, onUpload }) => {
               </div>
               <button
                 onClick={submitHandler}
-                className="text-primary bg-secondary text-sm active:bg-third border-2 border-secondary m-1 py-1 px-3 ml-3"
+                className="text-primary bg-third text-sm active:bg-third border-2 rounded-lg rounded-l-none border-third m-1 ml-2 px-3 py-[5px]"
               >
                 Submit
               </button>
@@ -94,14 +116,24 @@ const ShareFile = ({ fileList, onUpload }) => {
           return (
             <div
               key={file.url}
-              className="flex items-center lg:w-96 my-2 cursor-pointer hover:bg-secondary hover:text-primary rounded-xl p-2 ml-5 duration-300"
+              className="flex items-center my-2 cursor-pointer hover:bg-secondary hover:bg-opacity-25 rounded-xl p-2"
             >
-              <div className=" mr-1">
+              <a
+                href={file.url}
+                target="_blank"
+                className="flex w-full items-center overflow-x-hidden whitespace-nowrap"
+              >
                 <AiFillFile />
-              </div>
-              <a href={file.url} target="_blank">
-                {file.name}
+                <p className="ml-1 w-[90%] overflow-x-hidden whitespace-nowrap">
+                  {file.name}
+                </p>
               </a>
+              <button
+                onClick={() => deleteFile(file.name)}
+                className=" p-1 hover:bg-primary rounded-md hover:bg-opacity-50"
+              >
+                <AiFillDelete size={"20px"} />
+              </button>
             </div>
           );
         })}

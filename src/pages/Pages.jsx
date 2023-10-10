@@ -7,6 +7,7 @@ import SharePage from "./SharePage";
 const Pages = () => {
   return (
     <div>
+
       <Navbar />
       <div>
         <Routes>

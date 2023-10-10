@@ -83,8 +83,8 @@ const SharePage = () => {
   }, []);
 
   return (
-    <div className=" w-11/12 md:w-10/12 mx-auto">
-      <div className="w-fit mx-auto flex gap-10 mb-3 text-lg font-semibold">
+    <div className="w-10/12 mx-auto">
+      <div className="w-fit mx-auto flex gap-2 md:gap-7 lg:gap-10 mb-3 text-lg font-semibold">
         <button
           onClick={() => {
             setActiveTab("code");

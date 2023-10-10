@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Svg from "../components/Svg";
 import Photos from "../components/Photos";
 
 const Home = () => {
@@ -23,24 +22,28 @@ const Home = () => {
   }, []);
 
   return (
-    <main className=" mt-5 h-[80vh] flex flex-col md:flex-row items-center w-10/12 mx-auto ">
-      <div className="left w-1/2">
-        <h3 className="lg:text-4xl font-bold ">
-          CONVENIENTLY SHARE <br /> YOUR CODES AND FILES <br /> IN{" "}
-          <span className="text-secondary">ONE PLACE</span> .
-        </h3>
-        <Link to={`/${randomId}`}>
-          <button className="mt-10 bg-optional text-primary hover:opacity-90 duration-200 w-fit px-7 py-2 rounded-lg">
-            Share now
-          </button>
-        </Link>
-      </div>
+    <>
+      <main className=" mt-20 flex w-10/12 mx-auto ">
+        <div className="left md:w-1/2">
+          <h3 className="text-4xl xl:text-5xl mt-8 mb-2 md:mt-14 font-bold ">
+            CONVENIENTLY SHARE <br /> YOUR CODES AND FILES <br /> IN{" "}
+            <span className="text-secondary">ONE PLACE</span> .
+          </h3>
+          <p>Use custom path for easier sharing ;{")"}</p>
 
-      <div className="right hidden md:flex w-1/2">
-        {/* <Svg /> */}
-        <Photos />
-      </div>
-    </main>
+          <Link to={`/${randomId}`}>
+            <button className=" mt-14 bg-optional text-primary hover:opacity-90 duration-200 w-fit px-7 py-2 rounded-lg">
+              Share now
+            </button>
+          </Link>
+        </div>
+
+        <div className="right hidden md:flex w-1/2">
+          {/* <Svg /> */}
+          <Photos />
+        </div>
+      </main>
+    </>
   );
 };
 

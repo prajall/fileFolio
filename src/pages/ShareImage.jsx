@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { uploadBytes, ref, getDownloadURL, listAll } from "firebase/storage";
+import { uploadBytes, ref, deleteObject } from "firebase/storage";
 import { storage } from "../config/config";
 import Alert from "../components/Alert";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { AiOutlineCloseCircle, AiFillDelete } from "react-icons/ai";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { motion } from "framer-motion";
 
@@ -27,7 +27,17 @@ const ShareImage = ({ imageList, onUpload }) => {
     }
     uploadImage();
   };
-
+  const deleteImage = async (name) => {
+    const deleteRef = ref(storage, `${params}/images/${name}`);
+    await deleteObject(deleteRef)
+      .then(() => {
+        console.log("image Deleted");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    onUpload();
+  };
   const uploadImage = async () => {
     const imageRef = ref(storage, `${params}/images/${image.name}`);
     console.log(params);
@@ -85,7 +95,7 @@ const ShareImage = ({ imageList, onUpload }) => {
               </div>
               <button
                 onClick={submitHandler}
-                className="text-primary bg-third text-sm active:bg-third border-2 rounded-lg rounded-l-none border-third m-1 ml-2 px-3 py-[5px]"
+                className="text-primary bg-third text-sm active:bg-third hover:bg-optional border-2 rounded-lg rounded-l-none border-third m-1 ml-2 px-3 py-[5px]"
               >
                 Submit
               </button>
@@ -97,22 +107,38 @@ const ShareImage = ({ imageList, onUpload }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-6 gap-2">
         {imageList.map((image) => {
           return (
-            <div key={image.url}>
+            <motion.div
+              key={image.url}
+              className="image-container h-fit flex flex-col w-fit mx-auto"
+              initial={{ scale: 0.5, opacity: "0.5" }}
+              animate={{ scale: 1, opacity: 1, transition: 0.3 }}
+            >
               <a
                 href={image.url}
                 download={image.name}
                 target="_blank"
-                className="max-w-fit"
+                className="image-container"
               >
                 {" "}
                 <img
                   src={image.url}
                   alt="image"
-                  className="max-w-[330px] lg:max-w-[380px] mx-auto mb-2 rounded-xl"
+                  className=" max-w-[330px] max-h-[800px] lg:max-w-[380px] -z-10 mx-auto rounded-xl "
                   key={image.url}
                 />{" "}
               </a>
-            </div>
+              <button
+                initial={{ scale: 0.5, opacity: "0.5" }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 300 }}
+                onClick={() => {
+                  deleteImage(image.name);
+                }}
+                className=" delete-button lg:hidden bg-secondary hover:bg-primary  bg-opacity-50 text-primary hover:text-third active:bg-popacity w-14 mx-auto -mt-[35px] h-[35px] rounded-xl duration-300"
+              >
+                <AiFillDelete style={{ margin: "auto" }} size={"20px"} />
+              </button>
+            </motion.div>
           );
         })}
       </div>

@@ -33,3 +33,7 @@ h3.text-4xl.font-bold {
     line-height: 4rem !important;
   }
 }
+
+.image-container:hover>.delete-button {
+  display: flex
+}

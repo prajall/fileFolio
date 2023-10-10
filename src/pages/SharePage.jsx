@@ -83,8 +83,12 @@ const SharePage = () => {
   }, []);
 
   return (
-    <div className="w-10/12 mx-auto">
-      <div className="w-fit mx-auto flex gap-2 md:gap-7 lg:gap-10 mb-3 text-lg font-semibold">
+    <motion.div
+      initial={{ opacity: 0.5 }}
+      animate={{ opacity: 1, transition: 0.7 }}
+      className="w-10/12 mx-auto mb-3"
+    >
+      <div className="w-fit mx-auto flex gap-2 md:gap-7 lg:gap-10 mb-1 text-xl font-semibold">
         <button
           onClick={() => {
             setActiveTab("code");
@@ -129,7 +133,7 @@ const SharePage = () => {
       {activeTab === "file" && (
         <ShareFile fileList={fileList} onUpload={getFiles} />
       )}
-    </div>
+    </motion.div>
   );
 };
 

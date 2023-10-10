@@ -11,6 +11,7 @@ const ShareImage = ({ imageList, onUpload }) => {
   const [image, setImage] = useState(null);
   const params = useParams().id;
   const [alertStatus, setAlertStatus] = useState("hide");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const submitHandler = async () => {
     event.preventDefault();
@@ -31,7 +32,11 @@ const ShareImage = ({ imageList, onUpload }) => {
     const deleteRef = ref(storage, `${params}/images/${name}`);
     await deleteObject(deleteRef)
       .then(() => {
-        console.log("image Deleted");
+        setAlertMessage("Image Deleted");
+        setAlertStatus("show");
+        setTimeout(() => {
+          setAlertStatus("hide");
+        }, 3000);
       })
       .catch((err) => {
         console.log(err);
@@ -41,7 +46,9 @@ const ShareImage = ({ imageList, onUpload }) => {
   const uploadImage = async () => {
     const imageRef = ref(storage, `${params}/images/${image.name}`);
     console.log(params);
+
     await uploadBytes(imageRef, image).then(() => {
+      setAlertMessage("Image Uploaded");
       setAlertStatus("show");
       setTimeout(() => {
         setAlertStatus("hide");
@@ -53,7 +60,7 @@ const ShareImage = ({ imageList, onUpload }) => {
 
   return (
     <div>
-      {alertStatus === "show" && <Alert message="Image uploaded" />}
+      {alertStatus === "show" && <Alert message={alertMessage} />}
 
       <motion.form
         initial={{ scale: 0.7 }}
@@ -104,14 +111,20 @@ const ShareImage = ({ imageList, onUpload }) => {
         )}
       </motion.form>
 
+      {imageList.length === 0 && (
+        <div>
+          <p className="text-center opacity-75">Upload your images</p>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-6 gap-2">
         {imageList.map((image) => {
           return (
             <motion.div
               key={image.url}
               className="image-container h-fit flex flex-col w-fit mx-auto"
-              initial={{ scale: 0.5, opacity: "0.5" }}
-              animate={{ scale: 1, opacity: 1, transition: 0.3 }}
+              initial={{ y: 40, opacity: "0.3" }}
+              animate={{ y: 0, opacity: 1, transition: 0.7 }}
             >
               <a
                 href={image.url}
@@ -127,17 +140,15 @@ const ShareImage = ({ imageList, onUpload }) => {
                   key={image.url}
                 />{" "}
               </a>
-              <button
-                initial={{ scale: 0.5, opacity: "0.5" }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 300 }}
+              <motion.button
+                animate={{ y: -5 }}
                 onClick={() => {
                   deleteImage(image.name);
                 }}
-                className=" delete-button lg:hidden bg-secondary hover:bg-primary  bg-opacity-50 text-primary hover:text-third active:bg-popacity w-14 mx-auto -mt-[35px] h-[35px] rounded-xl duration-300"
+                className=" delete-button lg:hidden bg-secondary hover:bg-primary hover:bg-opacity-75  bg-opacity-75 text-primary hover:text-third active:bg-popacity active:text-secondary w-14 mx-auto -mt-[35px] h-[35px] rounded-xl duration-300"
               >
                 <AiFillDelete style={{ margin: "auto" }} size={"20px"} />
-              </button>
+              </motion.button>
             </motion.div>
           );
         })}

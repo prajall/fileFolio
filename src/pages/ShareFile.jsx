@@ -17,6 +17,7 @@ const ShareFile = ({ fileList, onUpload }) => {
   const [file, setFile] = useState(null);
   const params = useParams().id;
   const [alertStatus, setAlertStatus] = useState("hide");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const submitHandler = async () => {
     event.preventDefault();
@@ -35,6 +36,7 @@ const ShareFile = ({ fileList, onUpload }) => {
     const fileRef = ref(storage, `${params}/files/${file.name}`);
     console.log(params);
     await uploadBytes(fileRef, file).then(() => {
+      setAlertMessage("File Uploaded");
       setAlertStatus("show");
       setTimeout(() => {
         setAlertStatus("hide");
@@ -50,10 +52,18 @@ const ShareFile = ({ fileList, onUpload }) => {
     console.log(name);
     await deleteObject(deleteRef)
       .then(() => {
-        console.log("file deleted");
+        setAlertMessage("File Deleted");
+        setAlertStatus("show");
+        setTimeout(() => {
+          setAlertStatus("hide");
+        }, 3000);
       })
       .catch((err) => {
-        console.log(err);
+        setAlertMessage(err);
+        setAlertStatus("show");
+        setTimeout(() => {
+          setAlertStatus("hide");
+        }, 3000);
       });
     onUpload();
   };
@@ -61,7 +71,7 @@ const ShareFile = ({ fileList, onUpload }) => {
   return (
     <div>
       {/* =========== UPLOAD BUTTON ============== */}
-      {alertStatus === "show" && <Alert message="File Uploaded" />}
+      {alertStatus === "show" && <Alert message={alertMessage} />}
       <motion.form
         initial={{ scale: 0.7 }}
         animate={{ scale: 1, transition: 0.3 }}
@@ -110,13 +120,20 @@ const ShareFile = ({ fileList, onUpload }) => {
           </>
         )}
       </motion.form>
+      {fileList.length === 0 && (
+        <div>
+          <p className="text-center opacity-75">Upload your files</p>
+        </div>
+      )}
       {/* ============= FILE PREVIEWS =============== */}
       <div className="md:w-1/2 mx-auto">
         {fileList.map((file) => {
           return (
-            <div
+            <motion.div
               key={file.url}
-              className="flex items-center my-2 cursor-pointer hover:bg-secondary hover:bg-opacity-25 rounded-xl p-2"
+              initial={{ y: 40, opacity: "0.3" }}
+              animate={{ y: 0, opacity: 1, transition: 0.6 }}
+              className="flex items-center my-2 cursor-pointer hover:bg-secondary hover:bg-opacity-25 rounded-xl p-2 "
             >
               <a
                 href={file.url}
@@ -134,7 +151,7 @@ const ShareFile = ({ fileList, onUpload }) => {
               >
                 <AiFillDelete size={"20px"} />
               </button>
-            </div>
+            </motion.div>
           );
         })}
       </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { setDoc } from "firebase/firestore";
 import Alert from "../components/Alert";
 import { BiCopy } from "react-icons/bi";
+import { motion } from "framer-motion";
 
 const ShareCode = ({ data, docRef }) => {
   const [message, setMessage] = useState("");
@@ -29,7 +30,9 @@ const ShareCode = ({ data, docRef }) => {
       {alertStatus === "show" && <Alert message="Code Updated" />}
       <form>
         <div className="relative">
-          <textarea
+          <motion.textarea
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: 1, transition: 0.7 }}
             onChange={(e) => {
               setMessage(e.target.value);
             }}

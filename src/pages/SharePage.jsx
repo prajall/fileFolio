@@ -89,6 +89,8 @@ const SharePage = () => {
         if (data.private) {
           setUnlock(false);
         } else setUnlock(true);
+      } else {
+        setUnlock(true);
       }
     });
   };

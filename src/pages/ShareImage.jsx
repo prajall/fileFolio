@@ -12,6 +12,7 @@ const ShareImage = ({ imageList, onUpload }) => {
   const params = useParams().id;
   const [alertStatus, setAlertStatus] = useState("hide");
   const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("success");
 
   const submitHandler = async () => {
     event.preventDefault();
@@ -23,7 +24,13 @@ const ShareImage = ({ imageList, onUpload }) => {
     const imageParts = image.name.split(".");
     const imageExtension = imageParts[imageParts.length - 1];
     if (!allowedExtension.includes(imageExtension)) {
-      console.log("Unsupported image type");
+      setAlertType("fail");
+      setAlertMessage("Unsupported image type");
+      setAlertStatus("show");
+      setTimeout(() => {
+        setAlertStatus("hide");
+      }, 3000);
+      setImage(null);
       return;
     }
     uploadImage();
@@ -32,6 +39,7 @@ const ShareImage = ({ imageList, onUpload }) => {
     const deleteRef = ref(storage, `${params}/images/${name}`);
     await deleteObject(deleteRef)
       .then(() => {
+        setAlertType("success");
         setAlertMessage("Image Deleted");
         setAlertStatus("show");
         setTimeout(() => {
@@ -48,6 +56,7 @@ const ShareImage = ({ imageList, onUpload }) => {
     console.log(params);
 
     await uploadBytes(imageRef, image).then(() => {
+      setAlertType("success");
       setAlertMessage("Image Uploaded");
       setAlertStatus("show");
       setTimeout(() => {
@@ -60,7 +69,9 @@ const ShareImage = ({ imageList, onUpload }) => {
 
   return (
     <div>
-      {alertStatus === "show" && <Alert message={alertMessage} />}
+      {alertStatus === "show" && (
+        <Alert message={alertMessage} type={alertType} />
+      )}
 
       <motion.form
         initial={{ scale: 0.7 }}

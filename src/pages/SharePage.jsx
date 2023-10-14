@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { db } from "../config/config";
 import { getDocs, collection, doc, onSnapshot } from "firebase/firestore";
 import { ref, getDownloadURL, listAll } from "firebase/storage";
@@ -8,18 +8,30 @@ import { motion } from "framer-motion";
 import ShareCode from "./ShareCode";
 import ShareFile from "./ShareFile";
 import ShareImage from "./ShareImage";
+import Navbar2 from "../components/Navbar2";
+import Navbar1 from "../components/Navbar1";
+import { BiSolidLockAlt } from "react-icons/bi";
+import Alert from "../components/Alert";
 
 const SharePage = () => {
   const [code, setCode] = useState({});
   const [imageList, setImageList] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [activeTab, setActiveTab] = useState("code");
+  const [password, setPassword] = useState("");
+  const [isPrivate, setIsPrivate] = useState(null);
+  const [unlock, setUnlock] = useState(null);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [alertStatus, setAlertStatus] = useState("hide");
+
   const params = useParams().id;
   const collectionRef = collection(db, "folio");
   const docRef = doc(db, "folio", params);
+  const passwordCollectionRef = collection(db, "password");
+  const passwordDocRef = doc(db, "password", params);
 
   const getFolio = async () => {
-    const data = await getDocs(collectionRef);
+    const data = await getDocs(passwordCollectionRef);
     const filteredData = data.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
@@ -32,6 +44,7 @@ const SharePage = () => {
   };
 
   const getImages = async () => {
+    console.log("get images called");
     const folderRef = ref(storage, `${params}/images`);
 
     try {
@@ -41,9 +54,7 @@ const SharePage = () => {
         return { url: url, name: item.name };
       });
       const images = await Promise.all(imagePromises);
-      console.log(images);
       setImageList(images);
-      console.log("getImages called");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -60,17 +71,54 @@ const SharePage = () => {
       });
       const files = await Promise.all(filePromises);
       setFileList(files);
-      console.log("getFiles called");
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  const checkPrivacy = async () => {
+    const data = await getDocs(passwordCollectionRef);
+    const filteredData = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    filteredData.forEach((data) => {
+      if (data.id === params) {
+        setPassword(data.password);
+        setIsPrivate(data.private);
+        if (data.private) {
+          setUnlock(false);
+        } else setUnlock(true);
+      }
+    });
+  };
+
+  const handlePasswordSubmit = () => {
+    event.preventDefault();
+    console.log(passwordInput);
+    console.log(password);
+    if (passwordInput === password) {
+      setUnlock(true);
+    } else {
+      setAlertStatus("show");
+      setTimeout(() => {
+        setAlertStatus("hide");
+      }, 3000);
+      setPasswordInput("");
+    }
+  };
+
   useEffect(() => {
-    getFolio();
-    getImages();
-    getFiles();
-  }, [params]);
+    checkPrivacy();
+  }, []);
+
+  useEffect(() => {
+    if (unlock) {
+      getFolio();
+      getImages();
+      getFiles();
+    }
+  }, [unlock]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
@@ -83,57 +131,101 @@ const SharePage = () => {
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0.5 }}
-      animate={{ opacity: 1, transition: 0.7 }}
-      className="w-10/12 mx-auto mb-3"
-    >
-      <div className="w-fit mx-auto flex gap-2 md:gap-7 lg:gap-10 mb-1 text-xl font-semibold">
-        <button
-          onClick={() => {
-            setActiveTab("code");
-          }}
-          className={
-            activeTab === "code"
-              ? "mx-1 p-2 font-bold underline underline-offset-8 duration-300"
-              : "mx-1 p-2 duration-300 "
-          }
-        >
-          Code
-        </button>
-        <motion.button
-          onClick={() => {
-            setActiveTab("image");
-          }}
-          className={
-            activeTab === "image"
-              ? "mx-1 p-2 font-bold underline underline-offset-8 duration-300"
-              : "mx-1 p-2 duration-300"
-          }
-        >
-          Images
-        </motion.button>
-        <button
-          onClick={() => {
-            setActiveTab("file");
-          }}
-          className={
-            activeTab === "file"
-              ? "mx-1 p-2 font-bold underline underline-offset-8 duration-300"
-              : "mx-1 p-2 duration-300"
-          }
-        >
-          Files
-        </button>
-      </div>
-      {activeTab === "code" && <ShareCode data={code} docRef={docRef} />}
-      {activeTab === "image" && (
-        <ShareImage imageList={imageList} onUpload={getImages} />
+    <>
+      {alertStatus === "show" && (
+        <Alert message={"incorrect password"} type={"fail"} />
       )}
-      {activeTab === "file" && (
-        <ShareFile fileList={fileList} onUpload={getFiles} />
+      {unlock === true && (
+        <>
+          <Navbar2 />
+          <motion.div
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: 1, transition: 0.7 }}
+            className="w-10/12 mx-auto mb-3"
+          >
+            <div className="w-fit mx-auto flex gap-2 md:gap-7 lg:gap-10 mb-1 text-xl font-semibold">
+              <button
+                onClick={() => {
+                  setActiveTab("code");
+                }}
+                className={
+                  activeTab === "code"
+                    ? "mx-1 p-2 font-bold underline underline-offset-8 duration-300"
+                    : "mx-1 p-2 duration-300 "
+                }
+              >
+                Code
+              </button>
+              <motion.button
+                onClick={() => {
+                  setActiveTab("image");
+                }}
+                className={
+                  activeTab === "image"
+                    ? "mx-1 p-2 font-bold underline underline-offset-8 duration-300"
+                    : "mx-1 p-2 duration-300"
+                }
+              >
+                Images
+              </motion.button>
+              <button
+                onClick={() => {
+                  setActiveTab("file");
+                }}
+                className={
+                  activeTab === "file"
+                    ? "mx-1 p-2 font-bold underline underline-offset-8 duration-300"
+                    : "mx-1 p-2 duration-300"
+                }
+              >
+                Files
+              </button>
+            </div>
+            {activeTab === "code" && <ShareCode data={code} docRef={docRef} />}
+            {activeTab === "image" && (
+              <ShareImage imageList={imageList} onUpload={getImages} />
+            )}
+            {activeTab === "file" && (
+              <ShareFile fileList={fileList} onUpload={getFiles} />
+            )}
+          </motion.div>
+        </>
       )}
-    </motion.div>
+      {unlock === false && (
+        <div>
+          <Navbar1 />
+          <div className="w-full h-screen fixed top-0 flex justify-center items-center">
+            <div className="password-container w-[300px] md:w-[400px] lg:w-[500px] border-2 rounded-xl px-2 py-5 justify-center text-center ">
+              <h3 className="text-2xl mb-2 font-bold flex items-center justify-center ">
+                <BiSolidLockAlt />
+                Locked Folio
+              </h3>
+              <p>
+                This Folio is locked. Please enter password to unlock the files
+              </p>
+              <form className="flex flex-col mx-auto w-52 md:w-60">
+                <input
+                  type="password"
+                  className="border p-2 mt-3 text-sm rounded-lg w-full "
+                  placeholder="Password"
+                  onChange={(e) => {
+                    setPasswordInput(e.target.value);
+                  }}
+                  value={passwordInput}
+                />
+                <button
+                  type="submit"
+                  className="py-1 px-2 bg-third text-primary w-full rounded-lg mt-3"
+                  onClick={handlePasswordSubmit}
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

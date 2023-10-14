@@ -1,14 +1,12 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar1";
 import Home from "./Home";
 import SharePage from "./SharePage";
 
 const Pages = () => {
   return (
     <div>
-
-      <Navbar />
       <div>
         <Routes>
           <Route path="/" element={<Home />} />

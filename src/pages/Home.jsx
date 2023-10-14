@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Photos from "../components/Photos";
+import Navbar1 from "../components/Navbar1";
 
 const Home = () => {
   const [randomId, setRandomId] = useState("");
@@ -23,6 +24,7 @@ const Home = () => {
 
   return (
     <>
+      <Navbar1 />
       <main className=" mt-20 flex w-10/12 mx-auto ">
         <div className="left md:w-1/2">
           <h3 className="text-4xl xl:text-5xl mt-8 mb-2 md:mt-14 font-bold ">

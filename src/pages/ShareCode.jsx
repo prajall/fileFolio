@@ -30,9 +30,7 @@ const ShareCode = ({ data, docRef }) => {
       {alertStatus === "show" && <Alert message="Code Updated" />}
       <form>
         <div className="relative">
-          <motion.textarea
-            initial={{ opacity: 0.5 }}
-            animate={{ opacity: 1, transition: 0.7 }}
+          <textarea
             onChange={(e) => {
               setMessage(e.target.value);
             }}

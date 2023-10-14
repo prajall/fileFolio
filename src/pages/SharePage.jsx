@@ -23,6 +23,7 @@ const SharePage = () => {
   const [unlock, setUnlock] = useState(null);
   const [passwordInput, setPasswordInput] = useState("");
   const [alertStatus, setAlertStatus] = useState("hide");
+  // const [databaseExist, setDatabaseExist] = useState(false);
 
   const params = useParams().id;
   const collectionRef = collection(db, "folio");
@@ -78,18 +79,21 @@ const SharePage = () => {
 
   const checkPrivacy = async () => {
     const data = await getDocs(passwordCollectionRef);
+    let databaseExist = false;
     const filteredData = data.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
     filteredData.forEach((data) => {
       if (data.id === params) {
+        databaseExist = true;
         setPassword(data.password);
         setIsPrivate(data.private);
         if (data.private) {
           setUnlock(false);
         } else setUnlock(true);
-      } else {
+      }
+      if (!databaseExist) {
         setUnlock(true);
       }
     });

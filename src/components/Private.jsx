@@ -111,7 +111,7 @@ const Private = () => {
               <div className="password mt-2">
                 <input
                   type="text"
-                  placeholder="Password"
+                  placeholder="password"
                   className="w-full focus:outline-none border-2 rounded-lg text-sm p-1 px-2"
                   onChange={(e) => {
                     setPassword(e.target.value);

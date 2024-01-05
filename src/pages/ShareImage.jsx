@@ -8,32 +8,34 @@ import { BsPlusCircleDotted } from "react-icons/bs";
 import { motion } from "framer-motion";
 
 const ShareImage = ({ imageList, onUpload }) => {
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState(null);
   const params = useParams().id;
   const [alertStatus, setAlertStatus] = useState("hide");
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("success");
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadingImagesNames, setUploadingImagesNames] = useState("");
 
   const submitHandler = async () => {
     event.preventDefault();
-    if (!image) {
-      alert("please upload image");
-      return;
+    for (let i = 0; i < images.length; i++) {
+      const allowedExtension = ["jpg", "jpeg", "png", "svg", "gif"];
+      const imageParts = images[i].name.split(".");
+      const imageExtension = imageParts[imageParts.length - 1];
+      if (!allowedExtension.includes(imageExtension)) {
+        setAlertType("fail");
+        setAlertMessage("Unsupported image type");
+        setAlertStatus("show");
+        setTimeout(() => {
+          setAlertStatus("hide");
+        }, 3000);
+        setImage(null);
+        return;
+      }
+      setIsUploading(true);
+
+      uploadImage(images[i]);
     }
-    const allowedExtension = ["jpg", "jpeg", "png", "svg", "gif"];
-    const imageParts = image.name.split(".");
-    const imageExtension = imageParts[imageParts.length - 1];
-    if (!allowedExtension.includes(imageExtension)) {
-      setAlertType("fail");
-      setAlertMessage("Unsupported image type");
-      setAlertStatus("show");
-      setTimeout(() => {
-        setAlertStatus("hide");
-      }, 3000);
-      setImage(null);
-      return;
-    }
-    uploadImage();
   };
   const deleteImage = async (name) => {
     const deleteRef = ref(storage, `${params}/images/${name}`);
@@ -51,11 +53,10 @@ const ShareImage = ({ imageList, onUpload }) => {
       });
     onUpload();
   };
-  const uploadImage = async () => {
-    const imageRef = ref(storage, `${params}/images/${image.name}`);
-    console.log(params);
+  const uploadImage = async (i) => {
+    const imageRef = ref(storage, `${params}/images/${i.name}`);
 
-    await uploadBytes(imageRef, image).then(() => {
+    await uploadBytes(imageRef, i).then(() => {
       setAlertType("success");
       setAlertMessage("Image Uploaded");
       setAlertStatus("show");
@@ -63,10 +64,19 @@ const ShareImage = ({ imageList, onUpload }) => {
         setAlertStatus("hide");
       }, 3000);
     });
-    setImage(null);
+    setImages(null);
     onUpload();
+    setIsUploading(false);
   };
-
+  const joinImageList = (List) => {
+    console.log(List);
+    let list = List[0].name;
+    for (let i = 1; i < List.length; i++) {
+      list = list + ", " + List[i].name;
+    }
+    console.log(list);
+    setUploadingImagesNames(list);
+  };
   return (
     <div>
       {alertStatus === "show" && (
@@ -77,7 +87,7 @@ const ShareImage = ({ imageList, onUpload }) => {
         initial={{ scale: 0.7 }}
         animate={{ scale: 1, transition: 0.3 }}
       >
-        {!image && (
+        {!images && (
           <label
             htmlFor="imageUpload"
             className="flex items-center bg-secondary px-4 text-primary hover:scale-110 duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit"
@@ -90,22 +100,25 @@ const ShareImage = ({ imageList, onUpload }) => {
           id="imageUpload"
           type="file"
           onChange={(e) => {
-            setImage(e.target.files[0]);
+            // setImage(e.target.files[0]);
+            setImages(e.target.files);
+            joinImageList(e.target.files);
           }}
-          files={image}
+          files={images}
           className="hidden"
+          multiple
         />
         {/* ================== SUBMIT BUTTON =================== */}
-        {image && (
+        {images && !isUploading && (
           <>
             <div className="flex items-center w-fit m-auto ">
               <div className="flex item-center justify-between border rounded-lg rounded-r-none px-2 py-1 ">
                 <p className="mr-3 w-[180px] whitespace-nowrap overflow-hidden">
-                  {image.name}
+                  {uploadingImagesNames}
                 </p>
                 <button
                   onClick={() => {
-                    setImage(null);
+                    setImages(null);
                   }}
                 >
                   <AiOutlineCloseCircle size={"20px"} />
@@ -119,6 +132,14 @@ const ShareImage = ({ imageList, onUpload }) => {
               </button>
             </div>
           </>
+        )}
+        {/* ================= UPLOADING BUTTON ====================== */}
+
+        {isUploading && (
+          <div className="flex items-center bg-secondary px-4 text-primary duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit">
+            Uploading...
+            {/* <BsPlusCircleDotted size={"20px"} /> */}
+          </div>
         )}
       </motion.form>
 

@@ -14,36 +14,35 @@ import Alert from "../components/Alert";
 import { motion } from "framer-motion";
 
 const ShareFile = ({ fileList, onUpload }) => {
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
+  const [files, setFiles] = useState(null);
   const params = useParams().id;
   const [alertStatus, setAlertStatus] = useState("hide");
   const [alertMessage, setAlertMessage] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadingFilesNames, setUploadingFilesNames] = useState("");
 
-  const submitHandler = async () => {
+  const submitHandler = async (e) => {
     event.preventDefault();
-    if (!file) {
-      alert("please upload file");
-      return;
+    setIsUploading(true);
+
+    for (let i = 0; i < files.length; i++) {
+      uploadFile(files[i]);
     }
-    if (file.size > 52428800 * 2) {
-      alert("cannot upload file size more than 100mb");
-      return;
-    }
-    uploadFile();
   };
 
-  const uploadFile = async () => {
-    const fileRef = ref(storage, `${params}/files/${file.name}`);
-    console.log(params);
-    await uploadBytes(fileRef, file).then(() => {
+  const uploadFile = async (f) => {
+    const fileRef = ref(storage, `${params}/files/${f.name}`);
+    await uploadBytes(fileRef, f).then(() => {
       setAlertMessage("File Uploaded");
       setAlertStatus("show");
       setTimeout(() => {
         setAlertStatus("hide");
       }, 3000);
+      setFiles(null);
+      onUpload();
+      setIsUploading(false);
     });
-    setFile(null);
-    onUpload();
   };
 
   const deleteFile = async (name) => {
@@ -68,15 +67,23 @@ const ShareFile = ({ fileList, onUpload }) => {
     onUpload();
   };
 
+  const joinFileList = (List) => {
+    let list = List[0].name;
+    for (let i = 1; i < List.length; i++) {
+      list = list + ", " + List[i].name;
+    }
+    setUploadingFilesNames(list);
+  };
+
   return (
     <div>
-      {/* =========== UPLOAD BUTTON ============== */}
       {alertStatus === "show" && <Alert message={alertMessage} />}
+      {/* =========== UPLOAD BUTTON ============== */}
       <motion.form
         initial={{ scale: 0.7 }}
         animate={{ scale: 1, transition: 0.3 }}
       >
-        {!file && (
+        {!files && (
           <label
             htmlFor="fileUpload"
             className="flex items-center bg-secondary px-4 text-primary hover:scale-110 duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit"
@@ -89,22 +96,26 @@ const ShareFile = ({ fileList, onUpload }) => {
           id="fileUpload"
           type="file"
           onChange={(e) => {
-            setFile(e.target.files[0]);
+            setFiles(e.target.files);
+            joinFileList(e.target.files);
           }}
-          files={file}
+          files={files}
           className="hidden"
+          multiple
         />
         {/* ================== SUBMIT BUTTON =================== */}
-        {file && (
+        {files && !isUploading && (
           <>
             <div className="flex items-center w-fit m-auto ">
               <div className="flex item-center justify-between border rounded-lg rounded-r-none px-2 py-1 ">
                 <p className="mr-3 w-[180px] whitespace-nowrap overflow-hidden">
-                  {file.name}
+                  {/* {files.length > 1 && file.name + " , ..."}
+                  {files.length == 1 && file.name} */}
+                  {uploadingFilesNames}
                 </p>
                 <button
                   onClick={() => {
-                    setFile(null);
+                    setFiles(null);
                   }}
                 >
                   <AiOutlineCloseCircle size={"20px"} />
@@ -118,6 +129,15 @@ const ShareFile = ({ fileList, onUpload }) => {
               </button>
             </div>
           </>
+        )}
+
+        {/* ================= UPLOADING BUTTON ====================== */}
+
+        {isUploading && (
+          <div className="flex items-center bg-secondary px-4 text-primary duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit">
+            Uploading...
+            {/* <BsPlusCircleDotted size={"20px"} /> */}
+          </div>
         )}
       </motion.form>
       {fileList.length === 0 && (

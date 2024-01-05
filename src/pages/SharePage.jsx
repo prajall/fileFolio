@@ -45,7 +45,6 @@ const SharePage = () => {
   };
 
   const getImages = async () => {
-    console.log("get images called");
     const folderRef = ref(storage, `${params}/images`);
 
     try {

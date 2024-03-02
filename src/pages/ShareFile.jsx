@@ -14,7 +14,6 @@ import Alert from "../components/Alert";
 import { motion } from "framer-motion";
 
 const ShareFile = ({ fileList, onUpload }) => {
-  // const [file, setFile] = useState(null);
   const [files, setFiles] = useState(null);
   const params = useParams().id;
   const [alertStatus, setAlertStatus] = useState("hide");
@@ -32,22 +31,31 @@ const ShareFile = ({ fileList, onUpload }) => {
   };
 
   const uploadFile = async (f) => {
-    const fileRef = ref(storage, `${params}/files/${f.name}`);
-    await uploadBytes(fileRef, f).then(() => {
-      setAlertMessage("File Uploaded");
+    console.log(f);
+    if ((f.size > 104, 857, 600)) {
+      setAlertMessage("File must be less than 100mb");
       setAlertStatus("show");
       setTimeout(() => {
         setAlertStatus("hide");
       }, 3000);
-      setFiles(null);
-      onUpload();
       setIsUploading(false);
-    });
+    } else {
+      const fileRef = ref(storage, `${params}/files/${f.name}`);
+      await uploadBytes(fileRef, f).then(() => {
+        setAlertMessage("File Uploaded");
+        setAlertStatus("show");
+        setTimeout(() => {
+          setAlertStatus("hide");
+        }, 3000);
+        setFiles(null);
+        onUpload();
+        setIsUploading(false);
+      });
+    }
   };
 
   const deleteFile = async (name) => {
     const deleteRef = ref(storage, `${params}/files/${name}`);
-    // const deleteRef = ref(storage, `prajal/files/${name}`);
     console.log(name);
     await deleteObject(deleteRef)
       .then(() => {

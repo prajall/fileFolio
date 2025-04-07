@@ -39,19 +39,19 @@ const ShareFile = ({ fileList, onUpload }) => {
         setAlertStatus("hide");
       }, 3000);
       setIsUploading(false);
-    } else {
-      const fileRef = ref(storage, `${params}/files/${f.name}`);
-      await uploadBytes(fileRef, f).then(() => {
-        setAlertMessage("File Uploaded");
-        setAlertStatus("show");
-        setTimeout(() => {
-          setAlertStatus("hide");
-        }, 3000);
-        setFiles(null);
-        onUpload();
-        setIsUploading(false);
-      });
+      return;
     }
+    const fileRef = ref(storage, `${params}/files/${f.name}`);
+    await uploadBytes(fileRef, f).then(() => {
+      setAlertMessage("File Uploaded");
+      setAlertStatus("show");
+      setTimeout(() => {
+        setAlertStatus("hide");
+      }, 3000);
+      setFiles(null);
+      onUpload();
+      setIsUploading(false);
+    });
   };
 
   const deleteFile = async (name) => {

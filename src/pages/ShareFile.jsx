@@ -32,7 +32,7 @@ const ShareFile = ({ fileList, onUpload }) => {
 
   const uploadFile = async (f) => {
     console.log(f);
-    if ((f.size > 104, 857, 600)) {
+    if (f.size > 104857600) {
       setAlertMessage("File must be less than 100mb");
       setAlertStatus("show");
       setTimeout(() => {

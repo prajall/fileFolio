@@ -7,14 +7,27 @@ import { motion } from "framer-motion";
 const ShareCode = ({ data, docRef }) => {
   const [message, setMessage] = useState("");
   const [alertStatus, setAlertStatus] = useState("hide");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("success");
 
   const handleSubmit = async () => {
     event.preventDefault();
-    setDoc(docRef, { message: message });
-    setAlertStatus("show");
-    setTimeout(() => {
-      setAlertStatus("hide");
-    }, 3000);
+    try {
+      await setDoc(docRef, { message: message });
+      setAlertMessage("Code Updated");
+      setAlertType("success");
+      setAlertStatus("show");
+      setTimeout(() => {
+        setAlertStatus("hide");
+      }, 3000);
+    } catch (error) {
+      setAlertMessage("Failed to update code");
+      setAlertType("success");
+      setAlertStatus("fail");
+      setTimeout(() => {
+        setAlertStatus("hide");
+      }, 3000);
+    }
   };
 
   useEffect(() => {
@@ -27,7 +40,9 @@ const ShareCode = ({ data, docRef }) => {
 
   return (
     <div>
-      {alertStatus === "show" && <Alert message="Code Updated" />}
+      {alertStatus === "show" && (
+        <Alert message="Code Updated" type={"success"} />
+      )}
       <form>
         <div className="relative">
           <textarea

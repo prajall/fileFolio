@@ -149,12 +149,12 @@ const ShareImage = ({ imageList, onUpload }) => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-6 gap-2">
+      <div className="masonry mt-6 ">
         {imageList.map((image) => {
           return (
             <motion.div
               key={image.url}
-              className="image-container h-fit flex flex-col w-fit mx-auto"
+              className="mb-5 image-container h-fit flex flex-col w-fit mx-auto "
               initial={{ y: 40, opacity: "0.3" }}
               animate={{ y: 0, opacity: 1, transition: 0.7 }}
             >
@@ -168,7 +168,7 @@ const ShareImage = ({ imageList, onUpload }) => {
                 <img
                   src={image.url}
                   alt="image"
-                  className=" max-w-[330px] max-h-[800px] lg:max-w-[380px] -z-10 mx-auto rounded-xl "
+                  className=" mx-auto rounded-xl "
                   key={image.url}
                 />{" "}
               </a>
@@ -177,7 +177,7 @@ const ShareImage = ({ imageList, onUpload }) => {
                 onClick={() => {
                   deleteImage(image.name);
                 }}
-                className=" delete-button lg:hidden bg-secondary hover:bg-primary hover:bg-opacity-75  bg-opacity-75 text-primary hover:text-third active:bg-popacity active:text-secondary w-14 mx-auto -mt-[35px] h-[35px] rounded-xl duration-300"
+                className=" delete-button z-10 lg:hidden bg-secondary hover:bg-primary hover:bg-opacity-75  bg-opacity-75 text-primary hover:text-third active:bg-popacity active:text-secondary w-14 mx-auto -mt-[35px] h-[35px] rounded-xl duration-300"
               >
                 <AiFillDelete style={{ margin: "auto" }} size={"20px"} />
               </motion.button>

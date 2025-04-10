@@ -9,8 +9,8 @@ const Navbar1 = () => {
   }, [params]);
   return (
     <div className="bg- w-full flex items-center py-5">
-      <div className="w-10/12 mx-auto flex justify-between">
-        <div className="w-fit">
+      <div className="w-full flex justify-between">
+        <div className="">
           <Link to="/">
             <Logo />
           </Link>

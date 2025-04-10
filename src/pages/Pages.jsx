@@ -7,7 +7,7 @@ import SharePage from "./SharePage";
 const Pages = () => {
   return (
     <div>
-      <div>
+      <div className="container px-4 lg:px-10 mx-auto">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/:id" element={<SharePage />} />

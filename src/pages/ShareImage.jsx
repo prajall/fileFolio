@@ -162,27 +162,27 @@ const ShareImage = ({ imageList, onUpload, onDownload }) => {
               <img
                 src={image.url}
                 alt="image"
-                className="w-full mx-auto rounded-xl "
+                className="w-full h-full mx-auto rounded-xl "
                 key={image.url}
               />
               {/* <div className="absolute bottom-10 left-0 z-20"> */}
-              {/* <motion.button
+              <motion.button
                 animate={{ y: -5 }}
                 onClick={() => {
                   deleteImage(image.name);
                   // onDownload(false, image.name);
                 }}
-                className=" delete-button z-10 lg:hidden bg-secondary hover:bg-primary hover:bg-opacity-75  bg-opacity-75 text-primary hover:text-third active:bg-popacity active:text-secondary w-14 -mt-[35px] h-[35px] rounded-xl duration-300"
+                className=" group-hover:flex absolute top-[10px] right-[10px] z-10 lg:hidden bg-secondary hover:bg-primary hover:bg-opacity-75  bg-opacity-75 text-primary hover:text-third active:bg-popacity active:text-secondary w-14 h-[35px] rounded-xl duration-300"
               >
                 <AiFillDelete style={{ margin: "auto" }} size={"20px"} />
-              </motion.button> */}
+              </motion.button>
               <motion.button
                 animate={{ y: -5 }}
                 onClick={() => {
                   // deleteImage(image.name);
                   onDownload(false, image.name);
                 }}
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 group-hover:flex items-center gap-2 z-10 hidden bg-third active:bg-secondary bg-opacity-80 hover:bg-opacity-100 text-primary px-6 py-3 rounded-2xl duration-300"
+                className="absolute bottom-[10px] left-1/3 translate group-hover:flex items-center gap-2 z-10 hidden bg-third active:bg-secondary bg-opacity-80 hover:bg-opacity-100 text-primary px-6 py-3 rounded-2xl "
               >
                 Download
                 <BiDownload style={{ margin: "auto" }} size={"20px"} />

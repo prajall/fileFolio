@@ -13,7 +13,7 @@ import { BsPlusCircleDotted } from "react-icons/bs";
 import Alert from "../components/Alert";
 import { motion } from "framer-motion";
 
-const ShareFile = ({ fileList, onUpload }) => {
+const ShareFile = ({ fileList, onUpload, onDownload }) => {
   const [files, setFiles] = useState(null);
   const params = useParams().id;
   const [alertStatus, setAlertStatus] = useState("hide");
@@ -161,18 +161,15 @@ const ShareFile = ({ fileList, onUpload }) => {
               key={file.url}
               initial={{ y: 40, opacity: "0.3" }}
               animate={{ y: 0, opacity: 1, transition: 0.6 }}
-              className="flex items-center my-2 cursor-pointer hover:bg-secondary hover:bg-opacity-25 rounded-xl p-2 "
+              className="flex w-full overflow-x-hidden whitespace-nowrap items-center my-2 cursor-pointer hover:bg-secondary hover:bg-opacity-25 rounded-xl p-2 "
+              onClick={() => {
+                onDownload(true, file.name);
+              }}
             >
-              <a
-                href={file.url}
-                target="_blank"
-                className="flex w-full items-center overflow-x-hidden whitespace-nowrap"
-              >
-                <AiFillFile />
-                <p className="ml-1 w-[90%] overflow-x-hidden whitespace-nowrap">
-                  {file.name}
-                </p>
-              </a>
+              <AiFillFile />
+              <p className="ml-1 w-[90%] overflow-x-hidden whitespace-nowrap">
+                {file.name}
+              </p>
               <button
                 // onClick={() => deleteFile(file.name)}
                 // onClick = {()=>{onDownload}}

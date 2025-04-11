@@ -69,7 +69,7 @@ h3.text-4xl.font-bold {
 }
 
 .toggle-input:checked + .toggle-button .toggle-switch {
-  transform: transkyX(18px);
+  transform: translateX(18px);
 }
 
 .masonry {

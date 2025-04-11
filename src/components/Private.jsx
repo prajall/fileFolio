@@ -55,7 +55,7 @@ const Private = () => {
   };
 
   const shareLink = () => {
-    navigator.clipboard.writeText(`https://filefolio.netlify.app/${params}`);
+    navigator.clipboard.writeText(window.location.href);
     setAlertMessage("Copied to clipboard");
     setAlertType("success");
     setAlertStatus("show");
@@ -120,7 +120,7 @@ const Private = () => {
                 />
                 <button
                   onClick={handleSave}
-                  className="bg-optional text-slate-50 py-1 w-full mt-2 rounded-lg"
+                  className="bg-slate-800 text-slate-50 py-1 w-full mt-2 rounded-lg"
                 >
                   Save
                 </button>

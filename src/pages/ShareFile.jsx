@@ -94,7 +94,7 @@ const ShareFile = ({ fileList, onUpload, onDownload }) => {
         {!files && (
           <label
             htmlFor="fileUpload"
-            className="flex items-center bg-slate-900 px-4 text-slate-50 hover:scale-110 duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit"
+            className="flex items-center bg-slate-800 px-4 text-slate-50 hover:scale-110 duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit"
           >
             Upload
             <BsPlusCircleDotted size={"20px"} />

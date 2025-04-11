@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Logo from "./Logo";
 import { Link, useParams } from "react-router-dom";
+import Container from "./Container";
 
 const Navbar1 = () => {
   const params = useParams().id;
@@ -10,11 +11,11 @@ const Navbar1 = () => {
   return (
     <div className="bg- w-full flex items-center py-5">
       <div className="w-full flex justify-between">
-        <div className="">
+        <Container>
           <Link to="/">
             <Logo />
           </Link>
-        </div>
+        </Container>
       </div>
     </div>
   );

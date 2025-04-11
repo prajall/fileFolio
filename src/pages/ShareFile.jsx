@@ -94,7 +94,7 @@ const ShareFile = ({ fileList, onUpload, onDownload }) => {
         {!files && (
           <label
             htmlFor="fileUpload"
-            className="flex items-center bg-secondary px-4 text-primary hover:scale-110 duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit"
+            className="flex items-center bg-slate-600 px-4 text-slate-50 hover:scale-110 duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit"
           >
             Upload
             <BsPlusCircleDotted size={"20px"} />
@@ -131,7 +131,7 @@ const ShareFile = ({ fileList, onUpload, onDownload }) => {
               </div>
               <button
                 onClick={submitHandler}
-                className="text-primary bg-third text-sm active:bg-third border-2 rounded-lg rounded-l-none border-third m-1 ml-2 px-3 py-[5px]"
+                className="text-slate-50 bg-slate-800 text-sm active:bg-slate-800 border-2 rounded-lg rounded-l-none border-slate-800 m-1 ml-2 px-3 py-[5px]"
               >
                 Submit
               </button>
@@ -142,7 +142,7 @@ const ShareFile = ({ fileList, onUpload, onDownload }) => {
         {/* ================= UPLOADING BUTTON ====================== */}
 
         {isUploading && (
-          <div className="flex items-center bg-secondary px-4 text-primary duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit">
+          <div className="flex items-center bg-slate-600 px-4 text-slate-50 duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit">
             Uploading...
             {/* <BsPlusCircleDotted size={"20px"} /> */}
           </div>
@@ -161,7 +161,7 @@ const ShareFile = ({ fileList, onUpload, onDownload }) => {
               key={file.url}
               initial={{ y: 40, opacity: "0.3" }}
               animate={{ y: 0, opacity: 1, transition: 0.6 }}
-              className="flex w-full overflow-x-hidden whitespace-nowrap items-center my-2 cursor-pointer hover:bg-secondary hover:bg-opacity-25 rounded-xl p-2 "
+              className="flex w-full overflow-x-hidden whitespace-nowrap items-center my-2 cursor-pointer hover:bg-slate-600 hover:bg-opacity-25 rounded-xl p-2 "
               onClick={() => {
                 onDownload(true, file.name);
               }}
@@ -173,7 +173,7 @@ const ShareFile = ({ fileList, onUpload, onDownload }) => {
               <button
                 // onClick={() => deleteFile(file.name)}
                 // onClick = {()=>{onDownload}}
-                className=" p-1 hover:bg-primary rounded-md hover:bg-opacity-50"
+                className=" p-1 hover:bg-slate-50 rounded-md hover:bg-opacity-50"
               >
                 <AiFillDelete size={"20px"} />
               </button>

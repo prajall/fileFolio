@@ -50,7 +50,7 @@ const ShareCode = ({ data, docRef }) => {
               setMessage(e.target.value);
             }}
             value={message}
-            className="border-2 rounded w-full h-[75vh] bg-popacity p-3 font-semibold text-third resize-none font text-sm "
+            className="border-2 border-gray-400 bg-slate-50 rounded w-full h-[75vh] p-3 font-semibold text-slate-800 resize-none font text-sm"
             spellCheck="false"
             placeholder="Share your code..."
           />
@@ -60,7 +60,7 @@ const ShareCode = ({ data, docRef }) => {
               navigator.clipboard.writeText(message);
             }}
             title="Copy to clipboard"
-            className="absolute top-3 right-3 bg-primary hover:bg-secondary hover:text-primary active:bg-third duration-200 rounded p-1"
+            className="absolute top-3 right-3 bg-blue-50 hover:bg-secondary hover:text-blue-50 active:bg-slate-800 duration-200 rounded p-1"
           >
             <BiCopy size={"20px"} />
           </button>
@@ -68,7 +68,7 @@ const ShareCode = ({ data, docRef }) => {
 
         <button
           onClick={handleSubmit}
-          className="border px-2 py-1 mb-4 rounded bg-third text-primary"
+          className="border px-2 py-1 mb-4 rounded bg-slate-800 text-blue-50"
         >
           Submit
         </button>

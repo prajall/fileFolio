@@ -90,7 +90,7 @@ const Private = () => {
             <motion.div
               initial={{ y: -30 }}
               animate={{ y: 0 }}
-              className="config absolute w-40 md:w-48 lg:w-52 py-3 px-2 mt-3 -ml-16 md:-ml-24 lg:-ml- text-sm bg-primary border-2 rounded-lg z-10"
+              className="config absolute w-40 md:w-48 lg:w-52 py-3 px-2 mt-3 -ml-16 md:-ml-24 lg:-ml- text-sm bg-slate-50 border-2 rounded-lg z-10"
             >
               <div className="flex items-center justify-between">
                 Lock
@@ -120,7 +120,7 @@ const Private = () => {
                 />
                 <button
                   onClick={handleSave}
-                  className="bg-optional text-primary py-1 w-full mt-2 rounded-lg"
+                  className="bg-optional text-slate-50 py-1 w-full mt-2 rounded-lg"
                 >
                   Save
                 </button>
@@ -130,7 +130,7 @@ const Private = () => {
         </div>
         <button
           onClick={shareLink}
-          className="copy-link flex items-center bg-third hover:bg-opacity-90 duration-300 px-4 rounded-xl text-primary"
+          className="copy-link flex items-center bg-slate-800 hover:bg-opacity-90 duration-300 px-4 rounded-xl text-slate-50"
         >
           <HiShare />
           <p className="ml-1 hidden lg:flex ">Copy Link</p>

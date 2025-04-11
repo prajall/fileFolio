@@ -8,11 +8,13 @@ const Navbar2 = () => {
   return (
     <div className="bg- w-full flex items-center py-5 z-20">
       <div className="w-10/12 mx-auto flex justify-between">
-        <Container>
+        {/* <Container> */}
+        <div className="w-fit">
           <Link to="/">
             <Logo />
           </Link>
-        </Container>
+        </div>
+        {/* </Container> */}
         <div>
           <Private />
         </div>

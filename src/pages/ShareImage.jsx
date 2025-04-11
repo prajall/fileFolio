@@ -6,8 +6,9 @@ import Alert from "../components/Alert";
 import { AiOutlineCloseCircle, AiFillDelete } from "react-icons/ai";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { motion } from "framer-motion";
+import { BiDownload } from "react-icons/bi";
 
-const ShareImage = ({ imageList, onUpload }) => {
+const ShareImage = ({ imageList, onUpload, onDownload }) => {
   const [images, setImages] = useState(null);
   const params = useParams().id;
   const [alertStatus, setAlertStatus] = useState("hide");
@@ -154,33 +155,39 @@ const ShareImage = ({ imageList, onUpload }) => {
           return (
             <motion.div
               key={image.url}
-              className="mb-5 image-container h-fit flex flex-col w-fit mx-auto "
+              className="group relative mb-5 image-container h-fit flex flex-col w-full mx-auto "
               initial={{ y: 40, opacity: "0.3" }}
               animate={{ y: 0, opacity: 1, transition: 0.7 }}
             >
-              <a
-                href={image.url}
-                download={image.name}
-                target="_blank"
-                className="image-container"
-              >
-                {" "}
-                <img
-                  src={image.url}
-                  alt="image"
-                  className=" mx-auto rounded-xl "
-                  key={image.url}
-                />{" "}
-              </a>
-              <motion.button
+              <img
+                src={image.url}
+                alt="image"
+                className="w-full mx-auto rounded-xl "
+                key={image.url}
+              />
+              {/* <div className="absolute bottom-10 left-0 z-20"> */}
+              {/* <motion.button
                 animate={{ y: -5 }}
                 onClick={() => {
                   deleteImage(image.name);
+                  // onDownload(false, image.name);
                 }}
-                className=" delete-button z-10 lg:hidden bg-secondary hover:bg-primary hover:bg-opacity-75  bg-opacity-75 text-primary hover:text-third active:bg-popacity active:text-secondary w-14 mx-auto -mt-[35px] h-[35px] rounded-xl duration-300"
+                className=" delete-button z-10 lg:hidden bg-secondary hover:bg-primary hover:bg-opacity-75  bg-opacity-75 text-primary hover:text-third active:bg-popacity active:text-secondary w-14 -mt-[35px] h-[35px] rounded-xl duration-300"
               >
                 <AiFillDelete style={{ margin: "auto" }} size={"20px"} />
+              </motion.button> */}
+              <motion.button
+                animate={{ y: -5 }}
+                onClick={() => {
+                  // deleteImage(image.name);
+                  onDownload(false, image.name);
+                }}
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 group-hover:flex items-center gap-2 z-10 hidden bg-third active:bg-secondary bg-opacity-80 hover:bg-opacity-100 text-primary px-6 py-3 rounded-2xl duration-300"
+              >
+                Download
+                <BiDownload style={{ margin: "auto" }} size={"20px"} />
               </motion.button>
+              {/* </div> */}
             </motion.div>
           );
         })}

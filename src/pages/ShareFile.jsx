@@ -174,7 +174,8 @@ const ShareFile = ({ fileList, onUpload }) => {
                 </p>
               </a>
               <button
-                onClick={() => deleteFile(file.name)}
+                // onClick={() => deleteFile(file.name)}
+                // onClick = {()=>{onDownload}}
                 className=" p-1 hover:bg-primary rounded-md hover:bg-opacity-50"
               >
                 <AiFillDelete size={"20px"} />

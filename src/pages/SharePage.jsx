@@ -17,7 +17,7 @@ const SharePage = () => {
   const [code, setCode] = useState({});
   const [imageList, setImageList] = useState([]);
   const [fileList, setFileList] = useState([]);
-  const [activeTab, setActiveTab] = useState("code");
+  const [activeTab, setActiveTab] = useState("image");
   const [password, setPassword] = useState("");
   const [isPrivate, setIsPrivate] = useState(null);
   const [unlock, setUnlock] = useState(null);
@@ -113,6 +113,30 @@ const SharePage = () => {
     }
   };
 
+  const downloadFile = async (isFile, fileName) => {
+    try {
+      const filePath = `${params}/${isFile ? "files" : "images"}/${fileName}`;
+      console.log("FilePath:", filePath, fileName);
+      const fileRef = ref(storage, filePath);
+      const url = await getDownloadURL(fileRef);
+
+      const response = await fetch(url);
+      const blob = await response.blob();
+
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Create a temporary anchor tag to trigger the download
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
+
   useEffect(() => {
     checkPrivacy();
   }, []);
@@ -188,10 +212,18 @@ const SharePage = () => {
             </div>
             {activeTab === "code" && <ShareCode data={code} docRef={docRef} />}
             {activeTab === "image" && (
-              <ShareImage imageList={imageList} onUpload={getImages} />
+              <ShareImage
+                imageList={imageList}
+                onUpload={getImages}
+                onDownload={downloadFile}
+              />
             )}
             {activeTab === "file" && (
-              <ShareFile fileList={fileList} onUpload={getFiles} />
+              <ShareFile
+                fileList={fileList}
+                onUpload={getFiles}
+                onDownload={downloadFile}
+              />
             )}
           </motion.div>
         </>

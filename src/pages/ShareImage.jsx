@@ -115,7 +115,7 @@ const ShareImage = ({ imageList, onUpload, onDownload }) => {
           {images && !isUploading && (
             <>
               <div className="flex items-center w-fit m-auto ">
-                <div className="flex item-center justify-between border rounded-lg rounded-r-none px-2 py-1 ">
+                <div className="flex item-center justify-between border border-slate-900 rounded-lg rounded-r-none px-2 py-1 ">
                   <p className="mr-3 w-[180px] whitespace-nowrap overflow-hidden">
                     {uploadingImagesNames}
                   </p>

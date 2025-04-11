@@ -60,7 +60,7 @@ const ShareCode = ({ data, docRef }) => {
               navigator.clipboard.writeText(message);
             }}
             title="Copy to clipboard"
-            className="absolute top-3 right-3 bg-blue-50 hover:bg-secondary hover:text-blue-50 active:bg-slate-800 duration-200 rounded p-1"
+            className="absolute top-3 right-3 bg-blue-50 hover:bg-slate-600 hover:text-blue-50 active:bg-slate-800 duration-200 rounded p-1"
           >
             <BiCopy size={"20px"} />
           </button>

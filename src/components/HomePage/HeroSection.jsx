@@ -6,12 +6,28 @@ import Navbar1 from "../Navbar1";
 import photo1 from "../../Images/image1.jpg";
 import photo2 from "../../Images/image3.jpg";
 
-export default function HeroSection({ randomId }) {
+export default function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [iconAnimations, setIconAnimations] = useState([]);
   const [phoneAnimations, setPhoneAnimations] = useState([]);
+  const [randomId, setRandomId] = useState("");
   const [customPath, setCustomPath] = useState("");
 
+  const getRandomId = () => {
+    setRandomId("");
+    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let i;
+    let id = "";
+    for (i = 1; i <= 6; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      id += characters.charAt(randomIndex);
+    }
+    setRandomId(id);
+  };
+
+  useEffect(() => {
+    getRandomId();
+  }, []);
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePosition({

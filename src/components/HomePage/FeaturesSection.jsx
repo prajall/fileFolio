@@ -44,7 +44,7 @@ const FeaturesSection = () => {
       description:
         "Create memorable, easy-to-share links with custom paths. Make your shared content more accessible with personalized URLs that are easy to remember.",
       icon: <LinkIcon className="w-10 h-10" />,
-      color: "bg-gradient-to-br from-purple-500 to-indigo-400",
+      color: "bg-gradient-to-br from-purple-500 to-slate-400",
       image: "/placeholder.svg?height=300&width=400",
       imageAlt: "Custom URL illustration",
     },
@@ -111,7 +111,7 @@ const FeaturesSection = () => {
                   <p className="text-gray-600 mb-6">{feature.description}</p>
                   {/* <Link
                     href={`#${feature.id}`}
-                    className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800"
+                    className="inline-flex items-center text-sm font-medium text-slate-600 hover:text-slate-800"
                   >
                     Learn more <ArrowRight className="ml-1 w-4 h-4" />
                   </Link> */}

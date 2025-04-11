@@ -94,7 +94,7 @@ const ShareFile = ({ fileList, onUpload, onDownload }) => {
         {!files && (
           <label
             htmlFor="fileUpload"
-            className="flex items-center bg-slate-600 px-4 text-slate-50 hover:scale-110 duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit"
+            className="flex items-center bg-slate-900 px-4 text-slate-50 hover:scale-110 duration-300 active:scale-100 gap-2 mx-auto cursor-pointer py-2 my-7 rounded-3xl w-fit"
           >
             Upload
             <BsPlusCircleDotted size={"20px"} />
@@ -131,7 +131,7 @@ const ShareFile = ({ fileList, onUpload, onDownload }) => {
               </div>
               <button
                 onClick={submitHandler}
-                className="text-slate-50 bg-slate-800 text-sm active:bg-slate-800 border-2 rounded-lg rounded-l-none border-slate-800 m-1 ml-2 px-3 py-[5px]"
+                className="text-slate-50 bg-slate-900 text-sm active:bg-slate-800 border-2 rounded-lg rounded-l-none border-slate-800 m-1 ml-2 px-3 py-[5px]"
               >
                 Submit
               </button>

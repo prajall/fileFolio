@@ -252,7 +252,7 @@ const SharePage = () => {
                 />
                 <button
                   type="submit"
-                  className="py-1 px-2 bg-third text-primary w-full rounded-lg mt-3"
+                  className="py-1 px-2 bg-slate-900 text-primary w-full rounded-lg mt-3"
                   onClick={handlePasswordSubmit}
                 >
                   Submit

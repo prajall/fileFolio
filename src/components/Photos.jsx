@@ -9,15 +9,15 @@ const Photos = () => {
       <div className="relative w-full ml-10">
         <img
           src={codess}
-          className="w-60 rounded-md shadow-secondary shadow-xl absolute top-9 left-[13rem]"
+          className="w-60 rounded-md shadow-slate-600 shadow-xl absolute top-9 left-[13rem]"
         />
         <img
           src={image3}
-          className="w-44 rounded-md shadow-secondary shadow-lg absolute  left-0"
+          className="w-44 rounded-md shadow-slate-600 shadow-lg absolute  left-0"
         />
         <img
           src={image1}
-          className="w-48 rounded-md  shadow-secondary shadow-xl absolute top-36 left-[9rem]"
+          className="w-48 rounded-md  shadow-slate-600 shadow-xl absolute top-36 left-[9rem]"
         />
       </div>
     </>

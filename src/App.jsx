@@ -7,9 +7,6 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>
-          Filefolio | Share Files, Code & Images Instantly - No Logins
-        </title>
         <meta
           name="description"
           content="Instantly share files, code, and images with custom URLs. No login required. Just create, upload, and share."

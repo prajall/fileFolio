@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Navbar1 from "../Navbar1";
 import photo1 from "../../Images/image1.jpg";
 import photo2 from "../../Images/image3.jpg";
+import { useMobile } from "../../hooks/useMobile";
+import { cn } from "../../utils";
 
 export default function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -12,6 +14,8 @@ export default function HeroSection() {
   const [phoneAnimations, setPhoneAnimations] = useState([]);
   const [randomId, setRandomId] = useState("");
   const [customPath, setCustomPath] = useState("");
+
+  const isMobile = useMobile();
 
   const getRandomId = () => {
     setRandomId("");
@@ -79,30 +83,35 @@ export default function HeroSection() {
     {
       icon: <FileText size={24} />,
       position: { top: "25%", left: "15%" },
+      mobilePosition: { top: "20%", left: "10%" },
       color: "text-red-500",
       delay: 0,
     },
     {
       icon: <Lock size={24} />,
       position: { top: "20%", left: "45%" },
+      mobilePosition: { top: "10%", left: "45%" },
       color: "text-yellow-500",
       delay: 1.2,
     },
     {
       icon: <File size={24} />,
       position: { top: "25%", right: "15%" },
+      mobilePosition: { top: "20%", right: "10%" },
       color: "text-purple-400",
       delay: 0.5,
     },
     {
       icon: <Code size={24} />,
       position: { top: "45%", left: "10%" },
+      mobilePosition: { top: "80%", left: "10%" },
       color: "text-blue-500",
       delay: 0.8,
     },
     {
       icon: <ImageIcon size={24} />,
       position: { bottom: "30%", right: "10%" },
+      mobilePosition: { bottom: "15%", right: "10%" },
       color: "text-blue-600",
       delay: 1.5,
     },
@@ -132,7 +141,7 @@ export default function HeroSection() {
             <motion.div
               key={index}
               className={`absolute ${item.color} bg-white p-2 rounded-lg shadow-md`}
-              style={item.position}
+              style={isMobile ? item.mobilePosition : item.position}
               animate={{
                 y: iconAnimations[index].y,
                 x: iconAnimations[index].x,
@@ -168,7 +177,14 @@ export default function HeroSection() {
       {phoneAnimations.length > 0 && (
         <>
           <motion.div
-            className="absolute bottom-[30%] left-[20%] w-16 h-24 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl shadow-lg overflow-hidden"
+            className={cn(
+              "absolute  w-16 h-24 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl shadow-lg overflow-hidden"
+            )}
+            style={
+              isMobile
+                ? { bottom: "15%", left: "30%" }
+                : { bottom: "25%", left: "20%" }
+            }
             animate={{
               y: phoneAnimations[0].y,
               x: phoneAnimations[0].x,
@@ -200,12 +216,17 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.div
-            className="absolute bottom-[25%] right-[20%] w-16 h-24 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl shadow-lg overflow-hidden"
+            className="absolute  w-16 h-24 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl shadow-lg overflow-hidden"
             animate={{
               y: phoneAnimations[1].y,
               x: phoneAnimations[1].x,
               rotate: phoneAnimations[1].rotate,
             }}
+            style={
+              isMobile
+                ? { bottom: "8%", right: "25%" }
+                : { bottom: "25%", right: "20%" }
+            }
             transition={{
               y: {
                 duration: phoneAnimations[1].durationY,
@@ -255,14 +276,14 @@ export default function HeroSection() {
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row gap-4"
+          className="flex gap-2 md:gap-4 w-fit mx-auto justify-center px-4 "
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <input
             placeholder="Custom Path ?"
-            className="px-6 py-3 rounded-full bg-white text-gray-800 border border-gray-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors shadow-sm"
+            className="px-6 w-1/2 py-3 rounded-full bg-white text-gray-800 border border-gray-200 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors shadow-sm"
             onChange={(e) => {
               setCustomPath(e.target.value);
             }}

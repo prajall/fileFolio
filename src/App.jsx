@@ -7,10 +7,12 @@ function App() {
   return (
     <>
       <Helmet>
-        <title>Filefolio | Easiest way to share your files</title>
+        <title>
+          Filefolio | Share Files, Code & Images Instantly - No Logins
+        </title>
         <meta
           name="description"
-          content="Filefolio lets you share files, code, and images instantly.Just create your URL and start sharing!"
+          content="Instantly share files, code, and images with custom URLs. No login required. Just create, upload, and share."
         />
         <meta
           name="keywords"
@@ -23,6 +25,15 @@ function App() {
         />
         <meta property="og:url" content="https://filefolio.netlify.app" />
         <meta property="og:type" content="website" />
+        <meta
+          property="og:image"
+          content="https://filefolio.netlify.app/preview.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:image"
+          content="https://filefolio.netlify.app/preview.png"
+        />
       </Helmet>
       <BrowserRouter>
         <Pages />

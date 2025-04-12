@@ -52,7 +52,7 @@ const FeaturesSection = () => {
       id: "private-folio",
       title: "Private Folio",
       description:
-        "Keep your sensitive files secure with password protection and expiration dates. Control who can access your content and for how long.",
+        "Secure your shared files with password protection. Filefolio lets you control access to private content with expiration dates and custom links.",
       icon: <Lock className="w-10 h-10" />,
       color: "bg-gradient-to-br from-amber-500 to-orange-400",
       image: "/placeholder.svg?height=300&width=400",
@@ -64,30 +64,30 @@ const FeaturesSection = () => {
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         {/* Section header */}
-        <div className="text-center mb-16">
-          <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-4"
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            Powerful Features, Simple Experience
-          </motion.h2>
-          <motion.p
-            className="text-gray-600 max-w-2xl mx-auto text-lg"
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            Everything you need to share your content efficiently, securely, and
-            on your terms.
-          </motion.p>
-        </div>
-
-        {/* Features */}
         <Container>
+          <div className="text-center mb-16">
+            <motion.h2
+              className="text-3xl md:text-4xl font-bold mb-4"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              Powerful Features, Simple Experience
+            </motion.h2>
+            <motion.p
+              className="text-gray-600 max-w-2xl mx-auto text-lg"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Everything you need to share your content efficiently, securely,
+              and on your terms.
+            </motion.p>
+          </div>
+
+          {/* Features */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
             variants={containerVariants}
@@ -119,8 +119,35 @@ const FeaturesSection = () => {
               </motion.div>
             ))}
           </motion.div>
+          <div className="text-center mb-16">
+            <motion.h2
+              className="text-3xl md:text-4xl font-bold mb-4"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              Why Choose Filefolio for File Sharing?
+            </motion.h2>
+            <motion.p
+              className="text-gray-600 max-w-2xl mx-auto text-lg"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Instantly upload and share files, images, or code snippets without
+              creating an account or installing software.
+            </motion.p>
+          </div>
         </Container>
       </div>
+      {/* <p class="text-sm text-center mt-10">
+        Filefolio is the simplest way to share files, images, and code online.
+        With no sign-up required, you can upload and share instantly using
+        custom links. Whether you're sending code snippets, design mockups, or
+        documents, Filefolio gives you a fast, secure, and seamless experience.
+      </p> */}
     </section>
   );
 };
